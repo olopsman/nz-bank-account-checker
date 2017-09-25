@@ -15,7 +15,7 @@ function validateBank(bankId, branchId, accountBaseId, suffixId) {
     var algoOutput = getAlgo(bankId, branchId, accountBaseId);
     console.log(algoOutput);
     if(algoOutput == false) {
-        return 'Invalid';
+        return false;
     } else {
         //format the number
         var formatOutput = formatAccountNumber(bankId, branchId, accountBaseId, suffixId);        
@@ -46,19 +46,12 @@ function formatAccountNumber(bankId, branchId, accountBaseId, suffixId) {
 function calculateCheckSum(algoMap, algoOutput, accountNumberOutput) {
     var sum = 0;
     var multipliers = algoMap.get(algoOutput);
-    console.log(multipliers);
     //removes last value and assign to modulo
     var modulo = multipliers.pop(); 
-    console.log(multipliers);
-    console.log(accountNumberOutput);
 
     //loop through the multiplier
     for(var i = 0; i < multipliers.length; i++) {
-        console.log('acc =>' + accountNumberOutput[i] );
-        console.log('multi =>' + multipliers[i] );
-        
         var product = accountNumberOutput[i] * multipliers[i];
-        console.log(product);
         if(algoOutput == 'A') {
             sum += product;
         }
