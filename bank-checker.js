@@ -1,3 +1,32 @@
+function checkAccount() {
+    var checkWithPaymentsNZ = true;
+    //eg. banknumber 01 - 0902 - 0068389 - 00
+    //get value from the page
+    var bankId = document.getElementById('bankId').value;
+    var branchId = document.getElementById('branchId').value;
+    var accountBaseId = document.getElementById('accountBaseId').value;
+    var suffixId = document.getElementById('suffixId').value;
+    
+    getJSON('output.json',function(err, data) {
+        if (err !== null) {
+            alert('Something went wrong: ' + err);
+        } else {
+            var jsonObj = data;
+            //if enabled check with payments nz for active/new branches
+            if(checkWithPaymentsNZ) {
+                var isBranchValid = checkIfBankBranchValid(jsonObj, bankId, branchId);
+                //if branch is not valid return error
+                if(!isBranchValid) {
+                    console.log('branch is not valid');
+                    return;
+                }
+            } 
+            var results = validateBank( bankId, branchId, accountBaseId, suffixId);
+            console.log(results);
+        }
+    });	
+    
+}
 
 function validateBank(bankId, branchId, accountBaseId, suffixId) {
     var algoMap = new Map();
@@ -219,3 +248,31 @@ function getAlgo(bankId, branchId, accountBaseId) {
     }
 
 }
+function checkIfBankBranchValid(jsonObj, bankId, branchId) {
+    for(i in jsonObj) {
+
+        if(bankId == jsonObj[i].Bank_Number && branchId == jsonObj[i].Branch_Number){
+            return true;
+            break;
+        }
+    }
+    return false;
+}
+
+var getJSON = function(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+    var status = xhr.status;
+    console.log(status);
+    console.log(xhr);
+
+    if (status === 200) {
+        callback(null, xhr.response);
+    } else {
+        callback(status, xhr.response);
+    }
+    };
+    xhr.send();
+};

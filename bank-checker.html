@@ -2,32 +2,16 @@
 	<head>
 	<meta charset="utf-8">
 	<title>test</title>
-	<script src="bank-checker.js" type="text/javascript"></script>	
-	
-
-	<script type="text/javascript">
-
-		function afterLoad() {
-			//get value from the page
-			var bankId = document.getElementById('bankId').value;
-			var branchId = document.getElementById('branchId').value;
-			var accountBaseId = document.getElementById('accountBaseId').value;
-			var suffixId = document.getElementById('suffixId').value;
-			//validateBank( '01', '0902', '0068389', '0000');
-			var results = validateBank( bankId, branchId, accountBaseId, suffixId);
-			alert(results);
-		}
-		//window.onload = afterLoad;
-	</script>
+	<script src="bank-checker.js" type="text/javascript"></script>
 	</head>
 	<body>
-		test bank account; <br/>
+		<h2>NZ Bank Account Checker</h2><br/>
 
 		<input type="numeric" maxlength="2" id="bankId"/>
 		<input type="numeric" maxlength="4" id="branchId"/>
 		<input type="numeric" maxlength="7" id="accountBaseId"/>
 		<input type="numeric" maxlength="4" id="suffixId"/>
-		<input type="button" onclick="afterLoad()" value="Check Account"/>
+		<input type="button" onclick="checkAccount()" value="Check Account"/>
 		
 	</body>
 </html>
